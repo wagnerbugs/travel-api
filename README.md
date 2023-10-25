@@ -1,66 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API de teste para a fase de candidatura à vaga.
+## Introdução
+Implementação de uma API usando Laravel.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Instruções
+<details>
+<summary>
+Instruções e especificações do cliente
+</summary>
 
-## About Laravel
+## Crie uma aplicação Laravel API para uma suposta agência de viagens.
+### Glossário
+A Viagem (**travel**) é a unidade principal do projeto: contém todas as informações necessárias, como o número de dias, as imagens, o título, etc. Um exemplo é o São Paulo: Arquitetura, arte no MASP e compras ou Florianópolis: Praias, trilhas e resorts;
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Tour** é um intervalo de datas específico de uma viagem com preço e detalhes. São Paulo: Entre os dias 10 a 27 de maio, por R$ 5.000, o melhor da arquitetura e compre de tudo, outro de 10 a 15 de setembro por R$ 2.300 etc.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Metas
+Ao final o projeto deverá ter:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Um endpoint privado (admin) para criar novos usuários. Se você quiser, também pode ser um comando artisan, como quiser. Será utilizado principalmente para gerar usuários para este exercício;
+2. Um endpoint privado (admin) para criar novas viagens;
+3. Um endpoint privado (admin) para criar novos tours para uma viagem;
+4. Um endpoint privado (editor) para atualizar uma viagem;
+5. Um endpoint público (sem autenticação) para obter uma lista de viagens paginadas. Deve retornar apenas `is_public`;
+6. Um endpoint público (sem autenticação) para obter uma lista de passeios paginados pelo `slug` de viagem (por exemplo, todos os passeios do `exemplo-de-link` de viagem). Os usuários podem filtrar (pesquisar) os resultados por `priceFrom`, `priceTo`, `dateFrom` (a partir de `starting_date`) e dateTo (data até `ending_date`). O usuário pode classificar a lista por preço asc e desc. Eles sempre serão classificados, após cada filtro adicional fornecido pelo usuário, por `startingDate` asc.
 
-## Learning Laravel
+### Models
+#### User
+* ID
+* E-mail
+* Password
+* Roles (relacionamento M2M)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Roles
+* ID
+* Name
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### Travels
+* ID
+* Is Public (bool)
+* Slug
+* Name
+* Description
+* Number of days
+* Number of nights (campo virtual, calculado como numberOfDays - 1)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Tours
+* ID
+* Travel ID (M2O relationship)
+* Name
+* Starting date
+* Ending date
+* Price (integer, veja abaixo)
 
-## Laravel Sponsors
+##### Notas
+* Sinta-se à vontade para usar a autenticação nativa do Laravel.
+* Usamos UUIDs como chaves primárias em vez de IDs incrementais, mas não é obrigatório usá-los, embora seja muito apreciado;
+* Os valores (`price`) dos tours são números inteiros multiplicados por 100: por exemplo, 999 reais serão `99900`, mas, quando devolvidos ao Frontends, serão formatados (`99900/100`);
+* Os nomes dos tours dentro das amostras são algo que usamos internamente, mas você pode usar o que quiser;
+* Cada usuário administrador (`admin`) também terá a role de `editor`;
+* Cada endpoint de criação, é claro, deve criar um e apenas um recurso. Você não pode, por exemplo, enviar um array de recursos para criar;
+* O uso de php-cs-fixer e larastan é uma ***vantagem***;
+* Criar documentos é uma ***grande vantagem***;
+* Os testes de recursos são uma ***mega grande vantagem***.
+</details>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Requerimentos
+* PHP ^8.1
+* Composer ^2.0
+* Laravel (v10)
+* Banco de dados (usei o MySQL 5.4)
 
-### Premium Partners
+## Ambiente
+* Clonar o projeto:
+```
+git clone https://github.com/wagnerbugs/travel-api.git
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- ***Rode o composer***
+```
+composer update
+```
 
-## Contributing
+- ***Crie o arquivo `.env` a partir do `.env.example`***
+- Altere o nome do projeto
+- Defina o banco de dados de sua preferência e os dados de conexão
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- ***Crie a chave da aplicação laravel***
+```
+php artisan key:generate
+```
 
-## Code of Conduct
+- ***Criar banco de dados definido no .env***
+```
+mysql -u root -p
+```
+Digite a senha
+```
+create database nome_do_banco_de_dados;
+exit;
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- ***Faça a migração das tabelas***
+```
+php artisan migrate
+```
 
-## Security Vulnerabilities
+- ***"Rode" a seed (Role ['admin', 'editor'])***
+```
+php artisan db:seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- ***Com Apache***
+```
+php artisan serve
+```
+- ***Com Nginx - Valet***
+```
+valet link
+```
 
-## License
+- ***Para "rodar" os testes (PHPUnit, mas prefiro PEST)***
+```
+php artisan test
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- ***Para criar um usuário***
+```
+php artisan user:create
+```
+- Nome, E-mail, Senha e Role (Função) ['admin', 'editor']
+
+### In Progress
+- Documentação, vou usar o swagger ou scribe. =P
