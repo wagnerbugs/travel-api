@@ -49,4 +49,11 @@ class Travel extends Model
     // {
     //     return $this->number_of_days - 1;
     // }
+
+    // Alternative way to get the route slug
+    // Route::get('travels/{travel}/tours', [TourController::class, 'index']);
+    // public function getRouteKeyName()
+    // {
+    //     return 'slug';
+    // }
 }
