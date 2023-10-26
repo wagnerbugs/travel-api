@@ -5,7 +5,7 @@ Implementação de uma API usando Laravel.
 ### Instruções
 <details>
 <summary>
-Instruções e especificações do cliente
+INSTRUÇÕES E DETALHES DO TESTE
 </summary>
 
 ## Crie uma aplicação Laravel API para uma suposta agência de viagens.
@@ -65,70 +65,84 @@ Ao final o projeto deverá ter:
 </details>
 
 ## Requerimentos
-* PHP ^8.1
-* Composer ^2.0
-* Laravel (v10)
-* Banco de dados (usei o MySQL 5.4)
-
-## Ambiente
-* Clonar o projeto:
+- PHP ^8.1
+- Composer ^2.0
+- Laravel (v10)
+- Banco de dados (usei o MySQL 5.4)
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+## Ambiente 	:footprints: 	:footprints: 	:footprints:
+### CLONE DO PROJETO
+- Navegue até o diretório desejado e siga as seguintes instruções:
 ```
 git clone https://github.com/wagnerbugs/travel-api.git
 ```
+&nbsp;&nbsp;&nbsp;
 
-- ***Rode o composer***
+### CRIAR O ARQUIVO `.env` A PARTIR DO `.env.example`
+```
+cp .env.example .env
+```
+- ***No Linux, Mac***
+```
+nano .env
+```
+- ***No Windows***
+```
+notepad .env
+```
+- Altere o nome do projeto (`APP_NAME`)
+- Defina o banco de dados de sua preferência e os dados de conexão (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`)
+- Salve as alterações `CTRL` + `X` , `Y` , `ENTER` (Mac.: `Command` + `X` , `Y` , `ENTER`)
+
+&nbsp;&nbsp;&nbsp;
+### INSTALAÇÃO DAS DEPENDÊNCIAS
 ```
 composer update
 ```
+&nbsp;&nbsp;&nbsp;
 
-- ***Crie o arquivo `.env` a partir do `.env.example`***
-- Altere o nome do projeto
-- Defina o banco de dados de sua preferência e os dados de conexão
-
-- ***Crie a chave da aplicação laravel***
+### CHAVE HASH DA APLICAÇÃO
 ```
 php artisan key:generate
 ```
-
-- ***Criar banco de dados definido no .env***
+&nbsp;&nbsp;&nbsp;
+### BANCO DE DADOS .env
 ```
 mysql -u root -p
 ```
-Digite a senha
+- ***Digite a senha***
 ```
 create database nome_do_banco_de_dados;
 exit;
 ```
-
-- ***Faça a migração das tabelas***
+&nbsp;&nbsp;&nbsp;
+### MIGRAÇÃO DAS TABELAS
 ```
 php artisan migrate
 ```
-
 - ***"Rode" a seed (Role ['admin', 'editor'])***
 ```
 php artisan db:seed
 ```
-
-- ***Com Apache***
+- ***Alternativamente, você pode utilizar o comando migrate + seed***
 ```
-php artisan serve
+php artisan migrate:fresh --seed
 ```
-- ***Com Nginx - Valet***
-```
-valet link
-```
-
-- ***Para "rodar" os testes (PHPUnit, mas prefiro PEST)***
+&nbsp;&nbsp;&nbsp;
+### TESTES (PHPUnit)
 ```
 php artisan test
 ```
+&nbsp;&nbsp;&nbsp;
 
-- ***Para criar um usuário***
+### CRIAR USUÁRIO
 ```
 php artisan user:create
 ```
 - Nome, E-mail, Senha e Role (Função) ['admin', 'editor']
 
-### In Progress
-- Documentação, vou usar o swagger ou scribe. =P
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+### IN PROGRESS
+- Documentação. (Vou usar o swagger ou scribe =P)
